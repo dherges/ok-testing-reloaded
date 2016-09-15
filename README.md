@@ -19,3 +19,24 @@ For our example, let's take the following three methods:
 
 We copy the example JSON results to the ``src/test/fixtures`` folder, so that we can use them later in automated
 testing.
+
+
+## Writing a first automated test for a Twitter client
+
+Our foolish idea is that we're testing at the HTTP layer.
+That means that we set up a mock web server that replays scripted HTTP responses.
+
+Then, our client talks to the mock web server so that we know the response in advance, allowing us to make assertions
+for our client's behaviour.
+When should our client return an error code?
+How should the response data be represented in Java classes?
+
+Also, we can inspect the recorded request that we mock web server received and we can answer more questions like:
+Did our client include the expected request parameters?
+
+Code can be seen at ``TwitterApiTest``.
+
+
+### Implementing an (almost-)production-ready Twitter client
+
+TODO ... next time :-)
