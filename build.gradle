@@ -1,0 +1,40 @@
+plugins {
+  id "java"
+  id "application"
+}
+
+
+repositories {
+  jcenter()
+  mavenCentral()
+  maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+}
+
+
+dependencies {
+  compile 'com.sparkjava:spark-core:2.5'
+
+  compile 'com.squareup.retrofit2:retrofit:2.1.0'
+  compile 'com.squareup.retrofit2:converter-moshi:2.1.0'
+  compile 'com.squareup.okhttp3:okhttp:3.4.1'
+  compile 'com.squareup.okio:okio:1.9.0'
+  compile 'com.squareup.moshi:moshi:1.2.0'
+
+  testCompile 'junit:junit:4.+'
+  testCompile 'org.assertj:assertj-core:3.5.2'
+  testCompile 'com.orhanobut:mockwebserverplus:0.8.2-SNAPSHOT'
+}
+
+
+/** java application distributable */
+
+group 'oktesting'
+version '1.0-SNAPSHOT'
+mainClassName = 'oktesting.app.AppBootstrap'
+sourceCompatibility = 1.8
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'oktesting.app.AppBootstrap'
+  }
+}

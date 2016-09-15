@@ -1,2 +1,3 @@
 # ok-testing-reloaded
-Ok, testing HTTP applications with OkHttp
+
+> Ok, let's go testing HTTP applications with OkHttp.
