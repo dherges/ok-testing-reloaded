@@ -8,12 +8,12 @@
 package oktesting;
 
 import com.orhanobut.mockwebserverplus.MockWebServerPlus;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.mockwebserver.RecordedRequest;
+import oktesting.app.twitter.TwitterApi;
 import org.junit.Rule;
 import org.junit.Test;
+import retrofit2.Response;
 
 import java.io.IOException;
 
@@ -24,7 +24,6 @@ public class TwitterApiTest {
   @Rule
   public MockWebServerPlus server = new MockWebServerPlus();
 
-  private final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
 
   @Test
   public void homeTimeline() throws IOException, InterruptedException {
@@ -32,11 +31,10 @@ public class TwitterApiTest {
     server.enqueue("twitter/statuses/home_timeline");
 
     // execute request
-    final Request request = new Request.Builder()
-      .get()
-      .url(server.url("statuses/home_timeline.json"))
+    final TwitterApi twitterApi = new TwitterApi.Builder()
+      .baseUrl(server.url("/"))
       .build();
-    final Response response = okHttpClient.newCall(request).execute();
+    final Response<ResponseBody> response = twitterApi.homeTimeline().execute();
 
     // assert response
     assertThat(response.code()).isEqualTo(200);
