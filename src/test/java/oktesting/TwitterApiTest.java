@@ -8,7 +8,6 @@
 package oktesting;
 
 import com.orhanobut.mockwebserverplus.MockWebServerPlus;
-import okhttp3.mockwebserver.RecordedRequest;
 import oktesting.app.twitter.Tweet;
 import oktesting.app.twitter.TwitterApi;
 import org.junit.Rule;
@@ -18,7 +17,8 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static ext.assertj.MyAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TwitterApiTest {
 
@@ -40,15 +40,13 @@ public class TwitterApiTest {
     final Response<List<Tweet>> response = twitterApi().homeTimeline().execute();
 
     // assert response
-    assertThat(response.code()).isEqualTo(200);
+    assertThat(response).isOk().hasBody();
     assertThat(response.body().size()).isEqualTo(3);
     assertThat(response.body().get(0).createdAt).isEqualTo("2012-08-28T23:16:23.000");
     assertThat(response.body().get(0).user.name).isEqualTo("OAuth Dancer");
 
     // verify request
-    final RecordedRequest recordedRequest = server.takeRequest();
-    assertThat(recordedRequest.getMethod()).isEqualTo("GET");
-    assertThat(recordedRequest.getPath()).isEqualTo("/statuses/home_timeline.json");
+    assertThat(server.takeRequest()).isHttp("GET", "/statuses/home_timeline.json");
   }
 
   @Test
@@ -57,11 +55,8 @@ public class TwitterApiTest {
 
     final Response<Tweet> response = twitterApi().show("123").execute();
 
-    assertThat(response.body()).isNotNull();
+    assertThat(response).hasBody();
 
-    final RecordedRequest recordedRequest = server.takeRequest();
-    assertThat(recordedRequest.getMethod()).isEqualTo("GET");
-    assertThat(recordedRequest.getPath()).isEqualTo("/statuses/show/123");
+    assertThat(server.takeRequest()).isHttp("GET", "/statuses/show/123");
   }
-
 }

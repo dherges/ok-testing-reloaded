@@ -8,8 +8,6 @@
 package oktesting.app.twitter;
 
 import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Rfc3339DateJsonAdapter;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -33,7 +31,7 @@ public interface TwitterApi {
   Call<Tweet> show(@Path("id") String id);
 
   @POST("statuses/update")
-  Call<ResponseBody> tweet(@Query("status") String status);
+  Call<Tweet> tweet(@Query("status") String status);
 
 
 
