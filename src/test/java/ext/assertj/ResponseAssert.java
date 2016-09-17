@@ -34,6 +34,10 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response<?>>
     return isStatusCode(200);
   }
 
+  public ResponseAssert isForbidden() {
+    return isStatusCode(403);
+  }
+
   public ResponseAssert hasBody() {
     objects.assertNotNull(info, actual);
     objects.assertNotNull(info, actual.body());

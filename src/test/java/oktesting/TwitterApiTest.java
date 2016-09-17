@@ -59,4 +59,23 @@ public class TwitterApiTest {
 
     assertThat(server.takeRequest()).isHttp("GET", "/statuses/show/123");
   }
+
+  @Test
+  public void tweet_success() throws IOException {
+    server.enqueue("twitter/statuses/update_ok");
+
+    final Response<Tweet> response = twitterApi().tweet("Too alarming now to talk about").execute();
+
+    assertThat(response).hasBody();
+  }
+
+  @Test
+  public void tweet_duplicate() throws IOException {
+    server.enqueue("twitter/statuses/update_duplicate");
+
+    final Response<Tweet> response = twitterApi().tweet("Take those pictures down, shake it out").execute();
+
+    assertThat(response).isForbidden();
+  }
+
 }

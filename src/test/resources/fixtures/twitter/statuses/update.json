@@ -91,7 +91,7 @@
     "screen_name": "jasoncosta",
     "following": false
   },
-  "source": "<a href="//jason-costa.blogspot.com%5C%22" rel="\"nofollow\"">My Shiny App</a>",
+  "source": "<a href=\"//jason-costa.blogspot.com%5C%22\" rel=\"nofollow\">My Shiny App</a>",
   "in_reply_to_screen_name": null,
   "in_reply_to_status_id": null
 }
