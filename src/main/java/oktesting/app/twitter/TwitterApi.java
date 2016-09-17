@@ -29,8 +29,8 @@ public interface TwitterApi {
   @GET("statuses/home_timeline.json")
   Call<List<Tweet>> homeTimeline();
 
-  @GET("statuses/show/:id")
-  Call<ResponseBody> show(@Path("id") String id);
+  @GET("statuses/show/{id}")
+  Call<Tweet> show(@Path("id") String id);
 
   @POST("statuses/update")
   Call<ResponseBody> tweet(@Query("status") String status);

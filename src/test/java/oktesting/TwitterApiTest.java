@@ -25,6 +25,11 @@ public class TwitterApiTest {
   @Rule
   public MockWebServerPlus server = new MockWebServerPlus();
 
+  private TwitterApi twitterApi() {
+    return new TwitterApi.Builder()
+      .baseUrl(server.url("/"))
+      .build();
+  }
 
   @Test
   public void homeTimeline() throws IOException, InterruptedException {
@@ -32,10 +37,7 @@ public class TwitterApiTest {
     server.enqueue("twitter/statuses/home_timeline");
 
     // execute request
-    final TwitterApi twitterApi = new TwitterApi.Builder()
-      .baseUrl(server.url("/"))
-      .build();
-    final Response<List<Tweet>> response = twitterApi.homeTimeline().execute();
+    final Response<List<Tweet>> response = twitterApi().homeTimeline().execute();
 
     // assert response
     assertThat(response.code()).isEqualTo(200);
@@ -47,6 +49,19 @@ public class TwitterApiTest {
     final RecordedRequest recordedRequest = server.takeRequest();
     assertThat(recordedRequest.getMethod()).isEqualTo("GET");
     assertThat(recordedRequest.getPath()).isEqualTo("/statuses/home_timeline.json");
+  }
+
+  @Test
+  public void show() throws IOException, InterruptedException {
+    server.enqueue("twitter/statuses/show/success");
+
+    final Response<Tweet> response = twitterApi().show("123").execute();
+
+    assertThat(response.body()).isNotNull();
+
+    final RecordedRequest recordedRequest = server.takeRequest();
+    assertThat(recordedRequest.getMethod()).isEqualTo("GET");
+    assertThat(recordedRequest.getPath()).isEqualTo("/statuses/show/123");
   }
 
 }
