@@ -39,4 +39,21 @@ Code can be seen at ``TwitterApiTest``.
 
 ### Implementing an (almost-)production-ready Twitter client
 
-TODO ... next time :-)
+With our test in place, we can now focus on writing our client.
+Since we love Squares's _"ok library stack"_, we chose [Retrofit][retrofit] for our REST/JSON client.
+
+Implementation code can be seen at ``TwitterApi``.
+After changing our test code to use the new ``TwitterApi``, we can re-run our tests against the mocked HTTP web server
+and will see that our client still works.
+That's how it's supposed to be.
+
+
+TODO: add missing features
+
+
+## Reading List
+
+[retrofit]: http://square.github.io/retrofit/
+[okhttp]: http://square.github.io/okhttp/
+[moshi]: https://github.com/square/moshi
+[okio]: https://github.com/square/okio
