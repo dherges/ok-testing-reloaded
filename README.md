@@ -54,6 +54,12 @@ When adding such a feature, we enhance our test case to check that the Java obje
 
 ## Reading List
 
+* A few ok libraries
+  * [Retrofit][retrofit]
+  * [OkHttp][okhttp]
+  * [Moshi][moshi]
+  * [Okio][okio]
+
 [retrofit]: http://square.github.io/retrofit/
 [okhttp]: http://square.github.io/okhttp/
 [moshi]: https://github.com/square/moshi
