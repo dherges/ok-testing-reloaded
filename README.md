@@ -50,6 +50,11 @@ That's how it's supposed to be.
 We can now start to add missing features like Object to JSON conversion.
 When adding such a feature, we enhance our test case to check that the Java objects are returned from a response.
 
+Since we're a little bit tired of repeating the same assertions over and over again, we'd like to save us a few us a
+few keystrokes and introduce some [custom assertions](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html).
+We add a ``RecordedRequestAssert`` and a ``ResponseAssert`` and change our test case to use these assertions.
+Then, we realize that we've exchanged some 5 lines of code in ``TwitterApiTest`` for some 50 lines of code in our
+_newly, fancy, shiny_ assertion classes and wait for that investment to pay off in the future.
 
 
 ## Reading List
@@ -59,8 +64,10 @@ When adding such a feature, we enhance our test case to check that the Java obje
   * [OkHttp][okhttp]
   * [Moshi][moshi]
   * [Okio][okio]
+* [AssertJ][assertj], fluent assertions for java
 
 [retrofit]: http://square.github.io/retrofit/
 [okhttp]: http://square.github.io/okhttp/
 [moshi]: https://github.com/square/moshi
 [okio]: https://github.com/square/okio
+[assertj]: http://joel-costigliola.github.io/assertj/index.html
