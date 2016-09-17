@@ -47,8 +47,9 @@ After changing our test code to use the new ``TwitterApi``, we can re-run our te
 and will see that our client still works.
 That's how it's supposed to be.
 
+We can now start to add missing features like Object to JSON conversion.
+When adding such a feature, we enhance our test case to check that the Java objects are returned from a response.
 
-TODO: add missing features
 
 
 ## Reading List

@@ -8,14 +8,15 @@
 package oktesting;
 
 import com.orhanobut.mockwebserverplus.MockWebServerPlus;
-import okhttp3.ResponseBody;
 import okhttp3.mockwebserver.RecordedRequest;
+import oktesting.app.twitter.Tweet;
 import oktesting.app.twitter.TwitterApi;
 import org.junit.Rule;
 import org.junit.Test;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -34,11 +35,13 @@ public class TwitterApiTest {
     final TwitterApi twitterApi = new TwitterApi.Builder()
       .baseUrl(server.url("/"))
       .build();
-    final Response<ResponseBody> response = twitterApi.homeTimeline().execute();
+    final Response<List<Tweet>> response = twitterApi.homeTimeline().execute();
 
     // assert response
     assertThat(response.code()).isEqualTo(200);
-    assertThat(response.body().string()).startsWith("[\n  {\n    \"coordinates\"");
+    assertThat(response.body().size()).isEqualTo(3);
+    assertThat(response.body().get(0).createdAt).isEqualTo("2012-08-28T23:16:23.000");
+    assertThat(response.body().get(0).user.name).isEqualTo("OAuth Dancer");
 
     // verify request
     final RecordedRequest recordedRequest = server.takeRequest();

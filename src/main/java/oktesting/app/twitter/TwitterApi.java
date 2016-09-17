@@ -1,12 +1,25 @@
+/*
+ * ok-testing-reloaded
+ * https://github.com/dherges/ok-testing-reloaded
+ *
+ * Copyright (c) 2016 David Herges
+ * Licensed under the MIT license.
+ */
 package oktesting.app.twitter;
 
+import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Rfc3339DateJsonAdapter;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Retrofit interface for Twitter REST API
@@ -14,7 +27,7 @@ import retrofit2.http.Query;
 public interface TwitterApi {
 
   @GET("statuses/home_timeline.json")
-  Call<ResponseBody> homeTimeline();
+  Call<List<Tweet>> homeTimeline();
 
   @GET("statuses/show/:id")
   Call<ResponseBody> show(@Path("id") String id);
@@ -38,6 +51,11 @@ public interface TwitterApi {
     public TwitterApi build() {
       return new Retrofit.Builder()
         .baseUrl(baseUrl)
+        .addConverterFactory(MoshiConverterFactory.create(
+          new Moshi.Builder()
+            .add(Date.class, new DateJsonAdapter("EEE MMM dd kk:mm:ss z yyyy"))
+            .build()
+        ))
         .build()
         .create(TwitterApi.class);
     }
