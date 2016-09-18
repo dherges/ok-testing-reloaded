@@ -8,8 +8,8 @@
 package oktesting;
 
 import com.orhanobut.mockwebserverplus.MockWebServerPlus;
-import oktesting.app.twitter.Tweet;
-import oktesting.app.twitter.TwitterApi;
+import oktesting.twitter.Tweet;
+import oktesting.twitter.TwitterApi;
 import org.junit.Rule;
 import org.junit.Test;
 import retrofit2.Response;

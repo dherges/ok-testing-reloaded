@@ -5,7 +5,7 @@
  * Copyright (c) 2016 David Herges
  * Licensed under the MIT license.
  */
-package oktesting.app.twitter;
+package oktesting.twitter;
 
 import com.squareup.moshi.Json;
 
