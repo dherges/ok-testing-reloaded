@@ -31,7 +31,7 @@ for our client's behaviour.
 When should our client return an error code?
 How should the response data be represented in Java classes?
 
-Also, we can inspect the recorded request that we mock web server received and we can answer more questions like:
+Also, we can inspect the recorded request that the mock web server received and we can answer more questions like:
 Did our client include the expected request parameters?
 
 Code can be found in ``TwitterApiTest``.
@@ -75,7 +75,7 @@ In ``TwitterApiTest``, we add two more test methods: ``tweet_success()`` and ``t
 In the success case, we let mock web server replay a ``200 Ok`` response with a JSON object of a tweet.
 
 Let's go another round of tweeting.
-Twitter says that ["any attempt that would result in duplication will be blocked, resulting in a 403 error."](https://dev.twitter.com/rest/reference/post/statuses/update).
+Twitter says that ["any attempt that would result in duplication will be blocked, resulting in a 403 error"](https://dev.twitter.com/rest/reference/post/statuses/update).
 We mimic that behaviour in ``tweet_duplicate()`` by replaying a ``403 Forbidden`` and additionally delaying the
 response for some time.
 Surely, Twitter wants us to not duplicate duplicate duplicate duplicate duplicate like shit chat but rather calm down.
@@ -89,7 +89,7 @@ But what if something goes wrong?
 There will be an error message, telling me something that I don't understand and eventually inviting me to tweet and
 tweet again until it works.
 
-With the ability to replay scripted response we can mimic both cases.
+With the ability to replay scripted response we can run through both cases.
 We can then write tests that verify application behaviour on success, on a specific error, on a delayed response, and
 many more.
 End-to-end-testing is a topic of its own that needs an extra article to talk about in depth.
@@ -109,17 +109,18 @@ You've got a little bit of extra confidence that networking, speaking the HTTP p
 working and they are playing well together.
 By chance, these are usually the little things that need to fit together when sound turns into music.
 
-On the edge to outer space, for zealous or academic reasons or even both of them, we need to include the argument:
+On the edge to outer space, for zealous or academic reasons or even both of them, we need to include one more argument:
 you could decide to exchange the implementation.
 If you do so, remove all the application code, throw away ``TwitterApi``, no longer use Retrofit framework, and let the
 tests survive.
 They are still there.
-Use them to write yet another other Twitter client.
+They still serve HTTP responses and JSON documents.
+Use the tests to write yet another other Twitter client.
 
 On the back side of the moon, you could grumble that these tests are doing _too much_.
 Yes, they are testing library code.
-Yes, they are testing integrations of multiple parts.
-Is it still what they call a _unit_ test?
+Yes, they are testing integrations of multiple classes.
+Is it still what people like to call a _unit_ test?
 
 Going on from here, take the code as a skeleton for scaling up.
 See it as a source of inspiration or just a bunch of fluky ideas – up to how you perceive it.
