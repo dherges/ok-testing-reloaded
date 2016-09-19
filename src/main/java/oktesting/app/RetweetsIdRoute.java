@@ -7,16 +7,14 @@
  */
 package oktesting.app;
 
-import com.squareup.moshi.Moshi;
-import oktesting.twitter.DateJsonAdapter;
 import oktesting.twitter.Tweet;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 
 public class RetweetsIdRoute implements Route {
@@ -33,17 +31,16 @@ public class RetweetsIdRoute implements Route {
   }
 
   private List<Tweet> fetchTweets(long id, int count) {
-    final List<Tweet> tweets = new ArrayList<Tweet>(count);
-    for (int i = 0; i < count; i++) {
-      final Tweet tweet = new Tweet();
-      tweet.id = id + i;
-      tweet.text = String.format("Retweet #%s of %s for %s", i, count, id);
-      tweet.favorited = i % 2 == 0;
+    return IntStream.range(0, 99)
+      .mapToObj((i) -> {
+        final Tweet tweet = new Tweet();
+        tweet.id = id + i;
+        tweet.text = String.format("Retweet #%s of %s for %s", i, count, id);
+        tweet.favorited = i % 2 == 0;
 
-      tweets.add(tweet);
-    }
-
-    return tweets;
+        return tweet;
+      })
+      .collect(Collectors.toList());
   }
 
   public static Route create() {
