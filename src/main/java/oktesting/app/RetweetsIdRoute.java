@@ -31,13 +31,9 @@ public class RetweetsIdRoute implements Route {
       Integer.valueOf(count != null && count.length() > 0 ? count : "100")
     );
 
-    final Moshi moshi = new Moshi.Builder()
-        .add(Date.class, new DateJsonAdapter("EEE MMM dd kk:mm:ss z yyyy").nullSafe())
-        .build();
-
     response.header("Content-Type", "application/json");
 
-    return moshi.adapter(List.class).nullSafe().toJson(tweetList);
+    return tweetList;
   }
 
   private List<Tweet> fetchTweets(long id, int count) {
