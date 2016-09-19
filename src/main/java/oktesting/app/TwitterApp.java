@@ -16,6 +16,6 @@ public class TwitterApp implements SparkApplication {
   @Override
   public void init() {
 
-    get("/", (req, res) -> "Hello again!");
+    get("statuses/retweets/:id", RetweetsIdRoute.create());
   }
 }

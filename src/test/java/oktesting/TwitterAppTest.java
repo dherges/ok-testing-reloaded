@@ -31,12 +31,12 @@ public class TwitterAppTest {
 
     final Request request = new Request.Builder()
       .get()
-      .url("http://localhost:4444")
+      .url("http://localhost:4444/statuses/retweets/123")
       .build();
 
     final Response response = okHttpClient.newCall(request).execute();
 
-    assertThat(response.body().string()).isEqualTo("Hello again!");
+    assertThat(response.body().string()).startsWith("[{\"favorited\":true,\"id\":123");
   }
 
 }

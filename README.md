@@ -141,6 +141,9 @@ demo web application in [Spark][spark]
 
 
 
+[GET statuses/retweets/:id](https://dev.twitter.com/rest/reference/get/statuses/retweets/%3Aid)
+
+
 ## References
 
 * A few ok libraries
@@ -148,9 +151,9 @@ demo web application in [Spark][spark]
   * [OkHttp][okhttp]
   * [Moshi][moshi]
   * [Okio][okio]
+* [mockwebserver+][mockwebserver], a tool for replaying scripted HTTP traffic
+* [Spark][spark], a micro web framework on server side
 * [AssertJ][assertj], fluent assertions for java
-* [mockwebserver+][mockwebserver]
-* [Spark][spark]
 
 
 [retrofit]: http://square.github.io/retrofit/
