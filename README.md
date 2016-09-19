@@ -137,6 +137,8 @@ implementing API endpoints on the server side.
 
 TODO: next time around ... time and time again :-)
 
+demo web application in [Spark][spark]
+
 
 
 ## References
@@ -148,6 +150,7 @@ TODO: next time around ... time and time again :-)
   * [Okio][okio]
 * [AssertJ][assertj], fluent assertions for java
 * [mockwebserver+][mockwebserver]
+* [Spark][spark]
 
 
 [retrofit]: http://square.github.io/retrofit/
@@ -155,4 +158,5 @@ TODO: next time around ... time and time again :-)
 [moshi]: https://github.com/square/moshi
 [okio]: https://github.com/square/okio
 [mockwebserver]: https://github.com/orhanobut/mockwebserverplus
+[spark]: http://sparkjava.com/
 [assertj]: http://joel-costigliola.github.io/assertj/index.html
