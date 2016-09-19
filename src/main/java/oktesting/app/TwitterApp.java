@@ -24,12 +24,16 @@ public class TwitterApp implements SparkApplication {
 
     get(
       "statuses/retweets/:id",
-      RetweetsIdRoute.create(),
-      MoshiResponseTransformer.create(
-        new Moshi.Builder()
-          .add(Date.class, new DateJsonAdapter("EEE MMM dd kk:mm:ss z yyyy").nullSafe())
-          .build(),
-        List.class
+      "*/*",
+      ContentTypeRoute.create(
+        RetweetsIdRoute.create(),
+        "application/json",
+        MoshiResponseTransformer.create(
+          new Moshi.Builder()
+            .add(Date.class, new DateJsonAdapter("EEE MMM dd kk:mm:ss z yyyy").nullSafe())
+            .build(),
+          List.class
+        )
       )
     );
   }

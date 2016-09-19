@@ -26,14 +26,10 @@ public class RetweetsIdRoute implements Route {
     final String idParam = request.params(":id");
     final String count = request.queryParams("count");
 
-    final List<Tweet> tweetList = fetchTweets(
+    return fetchTweets(
       Long.valueOf(idParam),
       Integer.valueOf(count != null && count.length() > 0 ? count : "100")
     );
-
-    response.header("Content-Type", "application/json");
-
-    return tweetList;
   }
 
   private List<Tweet> fetchTweets(long id, int count) {
