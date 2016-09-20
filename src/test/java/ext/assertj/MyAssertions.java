@@ -19,4 +19,9 @@ public final class MyAssertions {
   public static ResponseAssert assertThat(Response<?> response) {
     return new ResponseAssert(response);
   }
+
+  public static OkHttpResponseAssert assertThat(okhttp3.Response okHttpResponse) {
+    return new OkHttpResponseAssert(okHttpResponse);
+  }
+
 }

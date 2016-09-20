@@ -23,6 +23,7 @@ dependencies {
   testCompile 'junit:junit:4.+'
   testCompile 'org.assertj:assertj-core:3.5.2'
   testCompile 'com.orhanobut:mockwebserverplus:0.8.2-SNAPSHOT'
+  testCompile 'com.jayway.jsonpath:json-path:2.2.0'
 }
 
 

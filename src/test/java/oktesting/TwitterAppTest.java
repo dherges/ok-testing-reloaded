@@ -19,16 +19,17 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ext.assertj.MyAssertions.assertThat;
 
 
 @RunWith(SparkRunner.class)
 @SparkApplicationTest(value = TwitterApp.class, port = 4444)
 public class TwitterAppTest {
 
+  private final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
+
   @Test
   public void test() throws IOException {
-    final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
-
     final Request request = new Request.Builder()
       .get()
       .url("http://localhost:4444/statuses/retweets/123")
@@ -37,6 +38,22 @@ public class TwitterAppTest {
     final Response response = okHttpClient.newCall(request).execute();
 
     assertThat(response.body().string()).startsWith("[{\"favorited\":true,\"id\":123");
+  }
+
+  @Test
+  public void testAgain() throws IOException {
+    final Request request = new Request.Builder()
+      .get()
+      .url("http://localhost:4444/statuses/retweets/200")
+      .build();
+
+    final Response response = okHttpClient.newCall(request).execute();
+
+    assertThat(response)
+      .isOk()
+      .hasContentType("application/json")
+      .jsonPath("$.length()", Integer.class, 100)
+      .jsonPath("$[0].id", Integer.class, 200);
   }
 
 }
