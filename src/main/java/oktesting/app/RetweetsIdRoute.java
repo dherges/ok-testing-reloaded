@@ -31,7 +31,7 @@ public class RetweetsIdRoute implements Route {
   }
 
   private List<Tweet> fetchTweets(long id, int count) {
-    return IntStream.range(0, 99)
+    return IntStream.range(0, 100)
       .mapToObj((i) -> {
         final Tweet tweet = new Tweet();
         tweet.id = id + i;
