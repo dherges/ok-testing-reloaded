@@ -7,7 +7,7 @@
  */
 package ext.junit;
 
-import spark.servlet.SparkApplication;
+import oktesting.app.di.ApplicationContainer;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,8 +18,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface SparkApplicationTest {
 
-  /** SparkApplication that will be tested */
-  Class<? extends SparkApplication> value();
+  /** Container of a SparkApplication that will be tested */
+  Class<? extends ApplicationContainer> value();
 
   /** Port number for the embedded web server */
   int port() default spark.Service.SPARK_DEFAULT_PORT;

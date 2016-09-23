@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import oktesting.app.TwitterApp;
+import oktesting.app.di.TestApplicationContainer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,7 +24,7 @@ import static ext.assertj.MyAssertions.assertThat;
 
 
 @RunWith(SparkRunner.class)
-@SparkApplicationTest(value = TwitterApp.class, port = 4444)
+@SparkApplicationTest(value = TestApplicationContainer.class, port = 4444)
 public class TwitterAppTest {
 
   private final OkHttpClient okHttpClient = new OkHttpClient.Builder().build();

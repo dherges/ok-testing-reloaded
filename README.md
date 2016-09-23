@@ -140,6 +140,8 @@ TODO: next time around ... time and time again :-)
 demo web application in [Spark][spark]
 
 
+For testing, let's introduce somne dependency injectioon ... dI is a pattern ... let's write it ourselves ... no library, no tool, DI self-made :)
+
 
 [GET statuses/retweets/:id](https://dev.twitter.com/rest/reference/get/statuses/retweets/%3Aid)
 

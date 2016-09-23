@@ -7,11 +7,11 @@
  */
 package ext.junit;
 
+import oktesting.app.di.ApplicationContainer;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
-import spark.servlet.SparkApplication;
 
 import static spark.Spark.awaitInitialization;
 import static spark.Spark.port;
@@ -19,8 +19,8 @@ import static spark.Spark.stop;
 
 public class SparkRunner extends BlockJUnit4ClassRunner {
 
-  private Class<? extends SparkApplication> sparkApplication;
-  private int sparkPort;
+  private Class<? extends ApplicationContainer> applicationContainer;
+  private int embeddedServerPort;
 
   public SparkRunner(Class<?> testClass) throws InitializationError {
     super(testClass);
@@ -43,14 +43,14 @@ public class SparkRunner extends BlockJUnit4ClassRunner {
   private void scanAnnotation() {
     SparkApplicationTest annotation = getTestClass().getAnnotation(SparkApplicationTest.class);
 
-    sparkApplication = annotation.value();
-    sparkPort = annotation.port();
+    applicationContainer = annotation.value();
+    embeddedServerPort = annotation.port();
   }
 
   private void sparkBootstrap() throws IllegalAccessException, InstantiationException {
-    port(sparkPort);
+    port(embeddedServerPort);
 
-    sparkApplication.newInstance().init();
+    applicationContainer.newInstance().twitterApp().init();
 
     awaitInitialization();
   }
