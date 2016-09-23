@@ -7,12 +7,12 @@
  */
 package oktesting.app.di;
 
-import oktesting.app.TwitterApp;
+import oktesting.app.TweetsDb;
 
 public class TestApplicationContainer extends ProductiveApplicationContainer implements ApplicationContainer {
 
   @Override
-  public TwitterApp twitterApp() {
-    return new TwitterApp();
+  public TweetsDb tweetsDb() {
+    return super.tweetsDb(); // XX ... we will provide a mocked db here later :-)
   }
 }

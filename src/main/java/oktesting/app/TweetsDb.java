@@ -8,28 +8,15 @@
 package oktesting.app;
 
 import oktesting.twitter.Tweet;
-import spark.Request;
-import spark.Response;
-import spark.Route;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class RetweetsIdRoute implements Route {
+/** A database for querying tweets :-) */
+public class TweetsDb {
 
-  @Override
-  public Object handle(Request request, Response response) throws Exception {
-    final String idParam = request.params(":id");
-    final String count = request.queryParams("count");
-
-    return fetchTweets(
-      Long.valueOf(idParam),
-      Integer.valueOf(count != null && count.length() > 0 ? count : "100")
-    );
-  }
-
-  private List<Tweet> fetchTweets(long id, int count) {
+  public List<Tweet> fetchTweets(long id, int count) {
     return IntStream.range(0, 100)
       .mapToObj((i) -> {
         final Tweet tweet = new Tweet();
@@ -42,7 +29,4 @@ public class RetweetsIdRoute implements Route {
       .collect(Collectors.toList());
   }
 
-  public static Route create() {
-    return new RetweetsIdRoute();
-  }
 }

@@ -22,7 +22,6 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static ext.assertj.MyAssertions.assertThat;
 
-
 @RunWith(SparkRunner.class)
 @SparkApplicationTest(value = TestApplicationContainer.class, port = 4444)
 public class TwitterAppTest {

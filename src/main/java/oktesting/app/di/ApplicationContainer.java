@@ -7,10 +7,12 @@
  */
 package oktesting.app.di;
 
+import oktesting.app.TweetsDb;
 import oktesting.app.TwitterApp;
 
 public interface ApplicationContainer {
 
   TwitterApp twitterApp();
 
+  TweetsDb tweetsDb();
 }

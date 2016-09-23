@@ -19,6 +19,12 @@ import static spark.Spark.get;
 
 public class TwitterApp implements SparkApplication {
 
+  private final TweetsDb tweetsDb;
+
+  public TwitterApp(TweetsDb tweetsDb) {
+    this.tweetsDb = tweetsDb;
+  }
+
   @Override
   public void init() {
 
@@ -26,7 +32,15 @@ public class TwitterApp implements SparkApplication {
       "statuses/retweets/:id",
       "*/*",
       ContentTypeRoute.create(
-        RetweetsIdRoute.create(),
+        (req, res) -> {
+          final String idParam = req.params(":id");
+          final String count = req.queryParams("count");
+
+          return tweetsDb.fetchTweets(
+            Long.valueOf(idParam),
+            Integer.valueOf(count != null && count.length() > 0 ? count : "100")
+          );
+        },
         "application/json",
         MoshiResponseTransformer.create(
           new Moshi.Builder()
