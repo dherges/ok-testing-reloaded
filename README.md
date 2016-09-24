@@ -265,28 +265,90 @@ such a verbosity that a test report becomes an API documentation.
 Something that I'd like to write more about in the future.
 
 
-## Dependency Injection, that giant (s)word
+## Dependency Injection and Testing
 
-For testing, let's introduce somne dependency injectioon ... dI is a pattern ... let's write it ourselves ... no library, no tool, DI self-made :)
+When people talk about testing it usually doesn't take too much time before the word _dependency injection_ enters
+the discussion.
+Most of the time, you'll hear someone saying something like
+["benefits of using dependency injection (..) is that it makes testing your code easier"](http://google.github.io/dagger/testing.html).
 
-TODO ...
-[first](https://github.com/dherges/ok-testing-reloaded/commit/596edf4d64b0f2bdb3b54aa3e9d90d7baa80654f)
-[second](https://github.com/dherges/ok-testing-reloaded/commit/21f92541b2db60d239d55ddf376aa2f4915b62e1)
+Regarding testing there is one and exactly one motivation for dependency injection:
+in production, dependencies are wired up so that all parts fit together to form a rather complex application.
+In testing however, some of the dependencies are replaced by
+[a stub or a fake or a mock](https://testing.googleblog.com/2013/07/testing-on-toilet-know-your-test-doubles.html).
+
+We use dependency injection because we want to replace a _productive implementation_ by some other implementation.
+Whether it is unit or functional or integration or end-to-end testing, motivation and goals remain the same.
+We want that replacement to produce well-known input for our application so that we can verify well-known output
+produced by our application.
+
+
+### That giant (s)word
+
+On a side note, I'd like to write a few extra sentences on the topic of dependency injection.
+Well, dependency injection sounds like a giant word and there are
+[hundreds of thousands of millions of frameworks](https://youtu.be/oK_XtfXPkqw)
+out there that cut like a sword in one way or another.
+
+To most people, dependency injection is associated with some kind of 'magic framework' and somehow we need some sort
+of 'annotation'.
+Personally, I worked in a large project team that [started bleeding thanks to Dagger from Square][dagger] and a few
+months later wrote a small project for myself and that got [cut into pieces by Dagger2 from Google][dagger2] eventually.
+All the blood came rushing out – yet again – with [Pimple in PHP](http://pimple.sensiolabs.org/),
+[BottleJs](https://github.com/young-steveo/bottlejs), or
+[Angular2's DI in TypeScript](https://angular.io/docs/ts/latest/guide/dependency-injection.html).
+Today is gonna be the day, that we gonna throw it back at'em.
+
+But what is dependency injection?
+After all, dependency injection is _a pattern of thinking and organizing_.
+When you call your favourite italian restaurant and demand a reservation for one specific table with a view at the sea,
+that is **NOT** dependency injection.
+Dependency injection is when you go to that restaurant, ask for a table, and the waiter assigns a table to you.
+That is just _a pattern how people communicate and interact with each other_.
+
+How does it look like in programming?
+Without dependency injection, a class is pro-active and explicitly creates object instances with ``new Something()``.
+With dependency injection, that class becomes passive and there is some way of passing an instance of ``Something``
+to that class.
+
+
+### Magic and no magic at all
+
+In order to make our application ready for dependency injection, we introduce something that we call an
+``ApplicationContainer``.
+That
+[container creates our application instance](https://github.com/dherges/ok-testing-reloaded/commit/596edf4d64b0f2bdb3b54aa3e9d90d7baa80654f)
+and we change our testing code to work with the container.
+We then change ``Twitter App`` so that it needs a ``TweetsDb`` (in other words: ``TwitterApp`` depends on ``TweetsDb``)
+and we
+[pass that dependency to the constructor of the application instance](https://github.com/dherges/ok-testing-reloaded/commit/21f92541b2db60d239d55ddf376aa2f4915b62e1).
+At that point, our application is using dependency injection.
+No framework.
+No annotations.
+No magic.
+Just dependency injection.
 
 So that gives us the ability to
-[add a mocked database in test runs](https://github.com/dherges/ok-testing-reloaded/commit/9dcc45e378eec877e18b74c01d6a0b349538642d).
+[add a fake database in test runs](https://github.com/dherges/ok-testing-reloaded/commit/9dcc45e378eec877e18b74c01d6a0b349538642d).
+Beware of the words: we called that class ``MockedTweetsDb`` which suggests that it is a mock.
+However, as mentioned above test doubles are either stubs, fakes, or mocks.
+In our case, that ``MockedTweetsDB`` is actually a fake and maybe we should have called it ``FakeTweetsDb`` in the
+first place.
 
-In order to make our self-made DI re-usable across different projects we can
+In order to make our self-made dependency injection re-usable across different projects we can
 [extract a generic interface ``SparkApplicationContainer``](https://github.com/dherges/ok-testing-reloaded/commit/9528c04ca7df75c50e3297b25d59b76783222192).
 A benefit is that ``SparkApplicationTest`` and ``SparkRunner`` don't need to import classes from our application.
-They depend on just that generic ``SparkApplicationContainer``.
-Maybe we should've done so in the first place.
+They depend on just that generic ``SparkApplicationContainer`` as a layer of indirection.
+Maybe we should've done that in the first place, too.
+I apologise for causing confusion.
 
 Either way, what you see:
-dependency injection sounds like a giant word and there are hundreds of thousands of millions of frameworks out there
-that cut like a sword in one way or another.
-After all, dependency injection is just _a pattern how mosaics are twinkling_.
-Today is gonna be the day, that we gonna do it on our own.
+dependency injection can be super simple if you know how to utilize it.
+Why did we do all this?
+In test runs, ``TestApplicationContainer`` gives our application a fake database that holds well-known data and we
+can write assertions on the response content of our application.
+In production, our application should connect to a real database and we achieve that with a
+``ProductiveApplicationContainer``.
 
 
 ---
@@ -317,7 +379,6 @@ I'd like to demonstrate a feature-driven approach that gives us specification, t
 * [AssertJ][assertj], fluent assertions for java
 * [Spark][spark], a micro web framework on server side
 * [JsonPath][jsonpath], an expression language to crawl through JSON documents
-* [Dagger][dagger] at Square and [Dagger][dagger2] at Google yet again
 
 
 [retrofit]: http://square.github.io/retrofit/
