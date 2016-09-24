@@ -3,6 +3,18 @@
 > Ok, let's go testing HTTP applications with a few ok libraries.
 
 
+## Abstract
+
+Topics covered here:
+
+* Testing HTTP applications with Square's _"a few ok libraries"_ (Retrofit, OkHttp, Moshi)
+* Testing client implementations with a mock web server
+* Testing server-side application with an embedded web server
+* Thoughts and ideas on end-to-end/integration testing and dependency injection
+* Twitter APIs are utilized for demonstration purposes
+
+---
+
 
 ## Mocking Twitter REST APIs
 
@@ -109,33 +121,32 @@ We feed HTTP responses and JSON documents to the client, putting us in a positio
 times ahead.
 It's times like these, you see some benefits again.
 
-Speaking in terms of developer experience, it makes it easy for you to add more features, talk to new API endpoints,
+Speaking in terms of developer experience, it makes it easy to add more features, talk to new API endpoints,
 or check if methods behave in the way that they're expected to be.
 
-You've got a little bit of extra confidence that networking, speaking the HTTP protocol, and JSON serialization are
+There's a little bit of extra confidence that networking, speaking the HTTP protocol, and JSON serialization are
 working and they are playing well together.
-By chance, these are usually the little things that need to fit together when sound turns into music.
+These are usually the little things that need to fit together when sound turns into music.
 
-On the edge to outer space, for zealous or academic reasons or even both of them, we need to include one more argument:
-you could decide to exchange the implementation.
-If you do so, remove all the application code, throw away ``TwitterApi``, no longer use Retrofit framework, and let the
-tests survive.
+For zealous or academic reasons or even both of them, we need to include one more argument:
+one could decide to exchange the implementation.
+When doing so, remove all the application code, throw away ``TwitterApi``, no longer use Retrofit framework, and just
+let the tests survive.
 They are still there.
 They still serve HTTP responses and JSON documents.
 Use the tests to write yet another other Twitter client.
 
-On the back side of the moon, you could grumble that these tests are doing _too much_.
+On the back side of the moon, one may grumble that these tests are doing _too much_.
 Yes, they are testing library code.
 Yes, they are testing integrations of multiple classes.
 Is it still what people like to call a _unit_ test?
+Has it turned out to be a _functional_ test or something else?
 
 Going on from here, take the code as a skeleton for scaling up.
 See it as a source of inspiration or just a bunch of fluky ideas – up to how you perceive it.
 
 
-
 ---
-
 
 
 ## Implementing Twitter REST APIs
@@ -143,9 +154,10 @@ See it as a source of inspiration or just a bunch of fluky ideas – up to how y
 So far, we've pretended that we're writing a Twitter client.
 Now, let's pretend that we've got a job offer from San Francisco and accepted to get paid in
 [$TWTR](https://investor.twitterinc.com/stockquote.cfm) common stock.
-Not only we're hoping for Twitter to turn into the green
-(or [Google to pay us out](http://money.cnn.com/2016/09/23/investing/twitter-takeover-rumors-google-salesforce/),
-but we're now focused on implementing API endpoints on the server side.
+Now we're hoping for Twitter to turn into the green,
+or [Google to pay us out](http://money.cnn.com/2016/09/23/investing/twitter-takeover-rumors-google-salesforce/),
+or both of it to happen.
+Also, we're now focused on implementing API endpoints on the server side.
 
 For demonstration purposes we will write a server-side web application in [Spark framework][spark].
 Spark ships with an embedded Jetty web server and comes with a super simple, expressive programming model.
@@ -191,14 +203,14 @@ make an HTTP request to the embedded web server, look at the response body and m
 
 However, we can do a little bit better.
 Did you notice that we returned a ``String`` from ``RetweetsIdRoute#handle()``?
-If we want to return _real_ enterprisy Java objects, we need a so-called ``ResponseTranformer`` that converts an
+If we want to return _real enterprisy Java objects_, we need a so-called ``ResponseTranformer`` that converts an
 arbitrary object to its string representation.
 Since we're suing [Moshi][moshi], let's
 [add a ``MoshiResponseTransformer``](https://github.com/dherges/ok-testing-reloaded/commit/a2b3cffa1a3886c1bb345daa7d7c1ab4e35dac64)
 that does that job.
 
 Still, in ``RetweetsIdRoute`` we're explicitly setting the content type header.
-If we're adding more and more features and writing more toutes, we'd had to repeat that line over and over again.
+If we're adding more and more features and writing more routes, we'd had to repeat that line over and over again.
 Let's improve that a little bit by
 [adding a ``ContentTypeRoute``](https://github.com/dherges/ok-testing-reloaded/commit/cd360819dd62a32b462bc8f38f1b5ec471274d18).
 It acts as some kind of intermediary:
@@ -206,25 +218,56 @@ when creating a new ``ContentTypeRoute``, we give it a route to delegate applica
 that should be produced and a corresponding ``ResponseTransformer``.
 
 Then we're super ambitious and move away from an old-school ``for`` loop and do the exact same thing with
-[a lambda expression](https://github.com/dherges/ok-testing-reloaded/commit/e5b771d794eed3348167b433816236a18047ee4b).
+[streams and lambda expressions](https://github.com/dherges/ok-testing-reloaded/commit/e5b771d794eed3348167b433816236a18047ee4b).
 
 After changing so much of our application code, does it still do what it's supposed to do?
 Let's re-run our test case to find out: yes, it works!
 
 
-## A view from a consumer
+## A consumer's point of view
 
 TODO: next time around ... time and time again :-)
 
 [JsonPath][jsonpath]
 
-demo web application in
+[commit](https://github.com/dherges/ok-testing-reloaded/commit/0bac45f058b864c031152fea77ab02b66ad95188)
 
 
-### Dependency Injection, that giant word
+
+## Dependency Injection, that giant (s)word
 
 For testing, let's introduce somne dependency injectioon ... dI is a pattern ... let's write it ourselves ... no library, no tool, DI self-made :)
 
+[first](https://github.com/dherges/ok-testing-reloaded/commit/596edf4d64b0f2bdb3b54aa3e9d90d7baa80654f)
+[second](https://github.com/dherges/ok-testing-reloaded/commit/21f92541b2db60d239d55ddf376aa2f4915b62e1)
+
+So that gives us the ability to
+[add a mocked database in test runs](https://github.com/dherges/ok-testing-reloaded/commit/9dcc45e378eec877e18b74c01d6a0b349538642d).
+
+In order to make our self-made DI re-usable across different projects we can
+[extract a generic interface ``SparkApplicationContainer``](https://github.com/dherges/ok-testing-reloaded/commit/9528c04ca7df75c50e3297b25d59b76783222192).
+A benefit is that ``SparkApplicationTest`` and ``SparkRunner`` don't need to import classes from our application.
+They depend on just that generic ``SparkApplicationContainer``.
+Maybe we should've done so in the first place.
+
+Either way, what you see:
+dependency injection sounds like a giant word and there are hundreds of thousands of millions of frameworks out there
+that cut like a sword in one way or another.
+After all, dependency injection is just _a pattern how mosaics are twinkling_.
+Today is the gonna be the day, that we gonna do it on our own.
+
+
+---
+
+
+## Summary
+
+When all is said and done, ...
+TODO ... summary in two sentences.
+
+Little by little, I'd like to build upon those ideas and write more on testing.
+A focus will be on end-to-end and integration testing respectively.
+I'd like to demonstrate a feature-driven approach that gives us specification, testing, and documentation in one go.
 
 
 ---
@@ -233,14 +276,16 @@ For testing, let's introduce somne dependency injectioon ... dI is a pattern ...
 ## References
 
 * A few ok libraries
+  * Presented at Droidcon MTL 2015: [Talk](https://youtu.be/WvyScM_S88c), [Slides](https://speakerdeck.com/jakewharton/a-few-ok-libraries-droidcon-mtl-2015)
   * [Retrofit][retrofit]
   * [OkHttp][okhttp]
   * [Moshi][moshi]
   * [Okio][okio]
 * [mockwebserver+][mockwebserver], a tool for replaying scripted HTTP traffic
+* [AssertJ][assertj], fluent assertions for java
 * [Spark][spark], a micro web framework on server side
 * [JsonPath][jsonpath], an expression language to crawl through JSON documents
-* [AssertJ][assertj], fluent assertions for java
+* [Dagger][dagger] at Square and [Dagger][dagger2] at Google yet again
 
 
 [retrofit]: http://square.github.io/retrofit/
@@ -251,3 +296,5 @@ For testing, let's introduce somne dependency injectioon ... dI is a pattern ...
 [spark]: http://sparkjava.com/
 [assertj]: http://joel-costigliola.github.io/assertj/index.html
 [jsonpath]: https://github.com/jayway/JsonPath
+[dagger]: http://square.github.io/dagger/
+[dagger2]: http://google.github.io/dagger/
