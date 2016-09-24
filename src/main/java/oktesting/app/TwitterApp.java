@@ -8,6 +8,7 @@
 package oktesting.app;
 
 import com.squareup.moshi.Moshi;
+import ext.spark.ContentTypeRoute;
 import ext.spark.MoshiResponseTransformer;
 import oktesting.twitter.DateJsonAdapter;
 import spark.servlet.SparkApplication;
