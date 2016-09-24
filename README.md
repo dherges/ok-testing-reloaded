@@ -101,6 +101,7 @@ Surely, Twitter wants us to not duplicate duplicate duplicate duplicate duplicat
 
 Where can these feature be really beneficial?
 Imagine what can be done with this approach in end-to-end-testing.
+
 From a user's perspective a workflow will look something like:
 enter a text, hit a button, _twout_ (= _shout_ + _tweet_) out your words, see a success message and get scrolled up
 my timeline seeing my tweet at the very top.
