@@ -215,7 +215,7 @@ Let's improve that a little bit by
 [adding a ``ContentTypeRoute``](https://github.com/dherges/ok-testing-reloaded/commit/cd360819dd62a32b462bc8f38f1b5ec471274d18).
 It acts as some kind of intermediary:
 when creating a new ``ContentTypeRoute``, we give it a route to delegate application behaviour to, the content type
-that should be produced and a corresponding ``ResponseTransformer``.
+that should be produced and a ``ResponseTransformer`` that keeps the two of them together.
 
 Then we're super ambitious and move away from an old-school ``for`` loop and do the exact same thing with
 [streams and lambda expressions](https://github.com/dherges/ok-testing-reloaded/commit/e5b771d794eed3348167b433816236a18047ee4b).
@@ -226,18 +226,49 @@ Let's re-run our test case to find out: yes, it works!
 
 ## A consumer's point of view
 
-TODO: next time around ... time and time again :-)
+At this point, our test simply makes a string equality check on the response body.
+Whenever the test run gives us a green light we do know that we succeeded in refactoring our implementation with
+non-breaking changes.
+Now let's change perspectives and try to improve our test case.
 
-[JsonPath][jsonpath]
+When we're looking at the API from a consumer's point of view, what are the things we'd like to know?
+A client should know how it can talk to that API and what it should expect in response.
+Here, that's the request url and request parameters, status codes and content types of responses, as well as
+the structure of response documents or error messages.
 
-[commit](https://github.com/dherges/ok-testing-reloaded/commit/0bac45f058b864c031152fea77ab02b66ad95188)
+Can we write a test case that describes the API in a such way?
+Let's try to do so by
+[writing the tests in a "prepare request, make a call, assert response"-fashion](https://github.com/dherges/ok-testing-reloaded/commit/0bac45f058b864c031152fea77ab02b66ad95188).
+From looking at the test we can tell the request URL and we can tell that we get a JSON document when it's a 200 Ok.
 
+Let me notice that the test example is not complete.
+We should find a way to describe that ``200`` is the ``:id`` parameter in ``statuses/retweeets/:id`` and that we can
+optionally pass a ``?count=<n>`` query parameter that limits the result list to that number of items.
+That's the place where you can jump to help me out :-)
+
+The official Twitter API documentation always gives an example of a response document.
+That example is a full JSON document with all its properties and objects and arrays.
+What if we want to point out specific parts of that JSON document that are really really interesting in the current use
+case?
+Well, an idea is to parse JSON into some objects and then make test assertions on the resulting data.
+Here, we use [JSONPath][jsonpath] to crawl through the JSON structure and to point to specific properties or objects.
+A custom ``OkHttpResponseAssert#jsonPath()`` extracts data from the given expression and makes an assertion for
+equality of the expected value.
+
+A benefit is that JsonPath expressions are not tightened to [one library][jsonpathjayway] or another.
+We can give the expressions to any person on that planet and that person will understand that expression.
+In theory and practive, that person needs to know how to _'speak'_  or _'understand'_ JSONPath, of course.
+
+If we're looking a little bit further ahead, we can build upon that idea and approach and try to write the tests with
+such a verbosity that a test report becomes an API documentation.
+Something that I'd like to write more about in the future.
 
 
 ## Dependency Injection, that giant (s)word
 
 For testing, let's introduce somne dependency injectioon ... dI is a pattern ... let's write it ourselves ... no library, no tool, DI self-made :)
 
+TODO ...
 [first](https://github.com/dherges/ok-testing-reloaded/commit/596edf4d64b0f2bdb3b54aa3e9d90d7baa80654f)
 [second](https://github.com/dherges/ok-testing-reloaded/commit/21f92541b2db60d239d55ddf376aa2f4915b62e1)
 
@@ -254,7 +285,7 @@ Either way, what you see:
 dependency injection sounds like a giant word and there are hundreds of thousands of millions of frameworks out there
 that cut like a sword in one way or another.
 After all, dependency injection is just _a pattern how mosaics are twinkling_.
-Today is the gonna be the day, that we gonna do it on our own.
+Today is gonna be the day, that we gonna do it on our own.
 
 
 ---
@@ -295,6 +326,7 @@ I'd like to demonstrate a feature-driven approach that gives us specification, t
 [mockwebserver]: https://github.com/orhanobut/mockwebserverplus
 [spark]: http://sparkjava.com/
 [assertj]: http://joel-costigliola.github.io/assertj/index.html
-[jsonpath]: https://github.com/jayway/JsonPath
+[jsonpath]: http://goessner.net/articles/JsonPath/
+[jsonpathjayway]: https://github.com/jayway/JsonPath
 [dagger]: http://square.github.io/dagger/
 [dagger2]: http://google.github.io/dagger/
