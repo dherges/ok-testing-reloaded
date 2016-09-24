@@ -9,7 +9,7 @@ package oktesting.app.di;
 
 import oktesting.app.TweetsDb;
 
-public class TestApplicationContainer extends ProductiveApplicationContainer implements ApplicationContainer {
+public class TestApplicationContainer extends ProductiveApplicationContainer implements MyTwitterApplicationContainer {
 
   @Override
   public TweetsDb tweetsDb() {

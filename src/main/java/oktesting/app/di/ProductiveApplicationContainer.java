@@ -9,11 +9,12 @@ package oktesting.app.di;
 
 import oktesting.app.TweetsDb;
 import oktesting.app.TwitterApp;
+import spark.servlet.SparkApplication;
 
-public class ProductiveApplicationContainer implements ApplicationContainer {
+public class ProductiveApplicationContainer implements MyTwitterApplicationContainer {
 
   @Override
-  public TwitterApp twitterApp() {
+  public SparkApplication sparkApplication() {
     return new TwitterApp(tweetsDb());
   }
 

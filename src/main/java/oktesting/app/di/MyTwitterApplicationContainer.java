@@ -7,12 +7,10 @@
  */
 package oktesting.app.di;
 
+import ext.spark.SparkApplicationContainer;
 import oktesting.app.TweetsDb;
-import oktesting.app.TwitterApp;
 
-public interface ApplicationContainer {
-
-  TwitterApp twitterApp();
+public interface MyTwitterApplicationContainer extends SparkApplicationContainer {
 
   TweetsDb tweetsDb();
 }

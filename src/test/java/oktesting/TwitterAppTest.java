@@ -12,7 +12,6 @@ import ext.junit.SparkRunner;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import oktesting.app.TwitterApp;
 import oktesting.app.di.TestApplicationContainer;
 import org.junit.Test;
 import org.junit.runner.RunWith;

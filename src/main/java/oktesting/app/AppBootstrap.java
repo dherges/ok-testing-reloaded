@@ -13,7 +13,7 @@ public class AppBootstrap {
 
   public static void main(String[] args) {
     new ProductiveApplicationContainer()
-      .twitterApp()
+      .sparkApplication()
       .init();
   }
 }
