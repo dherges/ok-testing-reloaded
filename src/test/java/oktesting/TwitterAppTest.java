@@ -36,7 +36,7 @@ public class TwitterAppTest {
 
     final Response response = okHttpClient.newCall(request).execute();
 
-    assertThat(response.body().string()).startsWith("[{\"favorited\":true,\"id\":123");
+    assertThat(response.body().string()).startsWith("[{\"favorited\":false,\"id\":123");
   }
 
   @Test
@@ -52,7 +52,8 @@ public class TwitterAppTest {
       .isOk()
       .hasContentType("application/json")
       .jsonPath("$.length()", Integer.class, 100)
-      .jsonPath("$[0].id", Integer.class, 200);
+      .jsonPath("$[0].id", Integer.class, 200)
+      .jsonPath("$[0].user.name", String.class, "Maria Moccachino");
   }
 
 }
