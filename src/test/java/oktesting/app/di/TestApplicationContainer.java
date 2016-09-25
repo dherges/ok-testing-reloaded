@@ -13,6 +13,6 @@ public class TestApplicationContainer extends ProductiveApplicationContainer imp
 
   @Override
   public TweetsDb tweetsDb() {
-    return new MockedTweetsDb();
+    return new FakeTweetsDb();
   }
 }

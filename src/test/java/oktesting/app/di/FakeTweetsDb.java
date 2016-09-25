@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class MockedTweetsDb extends TweetsDb {
+public class FakeTweetsDb extends TweetsDb {
 
   public List<Tweet> fetchTweets(long id, int count) {
     return IntStream.range(0, 100)
