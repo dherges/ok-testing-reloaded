@@ -1,6 +1,6 @@
 # ok-testing-reloaded
 
-> Ok, let's go testing HTTP applications with a few ok libraries.
+> Ok, let's go testing HTTP applications with all open-source software.
 
 
 ## Abstract
