@@ -356,12 +356,24 @@ In production, our application should connect to a real database and we achieve 
 
 ## Summary
 
-When all is said and done, ...
-TODO ... summary in two sentences.
+When all is said and done, it's time to recall the past and give a summary.
 
-Little by little, I'd like to build upon those ideas and write more on testing.
-A focus will be on end-to-end and integration testing respectively.
-I'd like to demonstrate a feature-driven approach that gives us specification, testing, and documentation in one go.
+For testing web client applications, we used a mock web server to replay HTTP traffic.
+We discussed that this approach will give us extra benefit for end-to-end testing in the future.
+
+For server-side web applications, we used an embedded server to run the application in an environment for integration
+testing.
+We wrote our integration tests from a consumer's point of view, thus documenting request/response pairs of the
+application's HTTP APIs.
+We showed that hand-crafted dependency injection is as powerful as a full framework, giving us the ability to substitute
+real-world dependencies with test doubles.
+
+In the future, I'd like to build upon those ideas and write more on testing, with a focus on end-to-end and integration
+testing respectively.
+As mentioned here, I'd like to demonstrate a feature-driven approach that enables to write specification, testing, and
+documentation in one go.
+
+Although we pretended very very hard, we still didn't receive any TWTR shares. :-)
 
 
 ---
