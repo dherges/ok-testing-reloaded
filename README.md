@@ -5,11 +5,11 @@
 
 ## Abstract
 
-Topics covered here:
+Topics covered here (five Ts):
 
 * Testing HTTP applications with Square's _"a few ok libraries"_ (Retrofit, OkHttp, Moshi)
 * Testing client implementations with a mock web server
-* Testing server-side application with an embedded web server
+* Testing server-side applications with an embedded web server
 * Thoughts and ideas on end-to-end/integration testing and dependency injection
 * Twitter APIs are utilized for demonstration purposes
 
@@ -245,7 +245,7 @@ From looking at the test we can tell the request URL and we can tell that we get
 Let me notice that the test example is not complete.
 We should find a way to describe that ``200`` is the ``:id`` parameter in ``statuses/retweeets/:id`` and that we can
 optionally pass a ``?count=<n>`` query parameter that limits the result list to that number of items.
-That's the place where you can jump to help me out :-)
+That's the place where you can jump in.
 
 The official Twitter API documentation always gives an example of a response document.
 That example is a full JSON document with all its properties and objects and arrays.
@@ -376,10 +376,7 @@ documentation in one go.
 Although we pretended very very hard, we still didn't receive any TWTR shares. :-)
 
 
----
-
-
-## References
+## Tech Stack
 
 * A few ok libraries
   * Presented at Droidcon MTL 2015: [Talk](https://youtu.be/WvyScM_S88c), [Slides](https://speakerdeck.com/jakewharton/a-few-ok-libraries-droidcon-mtl-2015)
@@ -389,8 +386,9 @@ Although we pretended very very hard, we still didn't receive any TWTR shares. :
   * [Okio][okio]
 * [mockwebserver+][mockwebserver], a tool for replaying scripted HTTP traffic
 * [AssertJ][assertj], fluent assertions for java
-* [Spark][spark], a micro web framework on server side
+* [Spark][spark], a micro framework with an embedded web server
 * [JsonPath][jsonpath], an expression language to crawl through JSON documents
+* [Gradle][gradle], build tool for Java applications
 
 
 [retrofit]: http://square.github.io/retrofit/
@@ -404,3 +402,4 @@ Although we pretended very very hard, we still didn't receive any TWTR shares. :
 [jsonpathjayway]: https://github.com/jayway/JsonPath
 [dagger]: http://square.github.io/dagger/
 [dagger2]: http://google.github.io/dagger/
+[gradle]: https://github.com/gradle/gradle
